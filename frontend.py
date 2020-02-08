@@ -19,7 +19,9 @@ User can do below operations:
 """
 
 from tkinter import *
-import backend
+from backend import Database
+
+database = Database("books.db")
 
 
 def getSelectedRow(event):
@@ -48,7 +50,7 @@ def getSelectedRow(event):
 def view_command():
     try:
         list1.delete(0,END)
-        for row in backend.view():
+        for row in database.view():
             list1.insert(END, row)
     except Exception as e:
         print(e)
@@ -56,14 +58,14 @@ def view_command():
 def search_command():
     try:
         list1.delete(0,END)
-        for row in backend.search(title_text.get(), author_text.get(), year_text.get(), isbn_text.get()):
+        for row in database.search(title_text.get(), author_text.get(), year_text.get(), isbn_text.get()):
             list1.insert(END, row)
     except Exception as e:
         print(e)
 
 def add_command():
     try:
-        backend.insert(title_text.get(), author_text.get(), year_text.get(), isbn_text.get())
+        database.insert(title_text.get(), author_text.get(), year_text.get(), isbn_text.get())
 #        view_command()
         list1.delete(0,END)
         list1.insert(END, (title_text.get(), author_text.get(), year_text.get(), isbn_text.get()))
@@ -72,14 +74,14 @@ def add_command():
         
 def delete_command():
     try:
-        backend.delete(selected_row[0])
+        database.delete(selected_row[0])
         view_command()
     except Exception as e:
         print(e)
         
 def update_command():
     try:
-        backend.update(selected_row[0],title_text.get(), author_text.get(), year_text.get(), isbn_text.get())
+        database.update(selected_row[0],title_text.get(), author_text.get(), year_text.get(), isbn_text.get())
         view_command()
     except Exception as e:
         print(e)
